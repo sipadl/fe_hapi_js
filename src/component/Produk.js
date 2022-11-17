@@ -1,6 +1,8 @@
+import { FormatRupiah } from '@arismun/format-rupiah';
 import axios  from 'axios';
 import React, {useState} from 'react';
 import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
+import { Rating } from 'react-simple-star-rating'
 
 function Produk(data) {   
     const [show, setShow] = useState(false);
@@ -23,29 +25,77 @@ function Produk(data) {
         
     }
 
+    const regexx = (data) => {
+        const regex = /(<([^>]+)>)/ig;
+        const result = data.replace(regex, '');
+
+        return result.substr(0,80);
+    }
+
+    const title = (data) => {
+        const long = data.length;
+        if(long > 20){
+           return data.substr(0,60) + '...'
+        } else {
+            return data;
+        }
+    }
+
+    const handleRating = (rate) => {
+        this.setState({rating:rate})
+        // other logic
+      }
+
+    const onPointerEnter = () => console.log('Enter')
+    const onPointerLeave = () => console.log('Leave')
+    const onPointerMove = () => console.log('Move');
+  
+
     return (
         <>
         {x.map((x, idx) =>  {
             return (
-                <Col md={3} xs={12} key={idx}>
-                    <Card className='my-3 shadow' style={{ width: '18rem', minHeight:'20rem', border:'none' }}>
-                    <Card.Img style={{ width:'auto', height:'166px', objectFitContent: 'contain',borderRadius:'20px' }} variant="top" className='p-2' src={x.prdImage01} alt='...' />
-                    <Card.Body>
-                        <Card.Title>{x.prdNm}</Card.Title>
-                        <Card.Text>
-                        {x.categori}
-                        </Card.Text>
-                        <Card.Text>
-                        </Card.Text>
-                        <Row className='mx-4'>
-                        <Button variant="primary" className='mb-2' onClick={() => getDetail(x) }>
-                            Detail
-                        </Button>
-                        <Button variant="danger" className='mb-2' onClick={() => deleteProduk(x.id) }>
-                            Hapus
-                        </Button>
-                        </Row>
-                    </Card.Body>
+                <Col md={12} xs={12} key={idx}>
+                    <Card className='my-3 shadow' style={{ border:'none' }}>
+                        <Row>
+                            <Col md={3}>
+                                <Card.Img style={{ width:'auto', height:'210px', objectFitContent: 'contain',borderRadius:'20px' }} variant="top" className='p-2' src={x.prdImage01} alt='...' />
+                                </Col>
+                            <Col md={9} style={{textAlign:'left'}}>
+                            <Row>
+                                <Col md={9}>
+                                    <Card.Body>
+                                    <h4>{title(x.prdNm)}</h4>
+                                    <p className='p-0 m-0'>{regexx(x.desc)}</p>
+                                    <small className="p-0 text-secondary">{x.categori}</small>
+                                    <br/>
+                                    <div className="d-flex">
+                                        <div className="mt-1">
+                                        <span className="p-1 mt-4">4.7</span>
+                                        </div>
+                                        <div>
+
+                                    <small>
+                                    <Rating style={{}}
+                                        /* Available Props */
+                                        size={18}
+                                        readOnly={true}
+                                        initialValue={5}
+                                        iconsCount={5}
+                                        />
+                                    </small>
+                                        </div>
+                                    </div>
+                                </Card.Body>
+                                </Col>
+                                <Col md={3} className='text-right'>
+                                    <Card.Body className='p-0 mt-3'>
+                                    <strong> <FormatRupiah value={x.price} /></strong>
+                                    </Card.Body>
+                                </Col>
+                            </Row>
+                            </Col>
+                    </Row>
                     </Card>
                 </Col>
                 )

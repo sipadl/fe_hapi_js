@@ -1,12 +1,14 @@
 import axios from "axios";
 import { GETS, ERROR, DELETE, ADDS } from "../tipe";
+import datas from '../../assets/datas.js';
 
 export const getProduk = () => async dispatch => {
     try{
-        const res = await axios.get(`http://localhost:3058/`)
+        // const res = await axios.get(`http://localhost:3058/`)
+        const res = datas;
         dispatch( {
             type: GETS,
-            payload: res.data[0].produk
+            payload: res
         })
     }
     catch(e){
